@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="sidebar">
+        <h2>CATEGORÍAS</h2>
+        <ul>
+            <li><a href="{% url 'terror' %}">Terror</a></li>
+            <li><a href="{% url 'adventure' %}">Acción/Aventura</a></li>
+            <li><a href="{% url 'strategy' %}">Estrategia</a></li>
+            <li><a href="{% url 'shooter' %}">Shooter</a></li>
+            <li><a href="{% url 'racing' %}">Racing</a></li>
+        </ul>
+    </div>
+    
+    <div class="banner-strategy">
+        <h1>Estrategia</h1>
+    </div>
+    <section id="products">
+        <div class="product">
+            <img class="productimage" src="img/aoe4caratula.webp">
+            <div class="product-info">
+                <h3>Age of empires IV</h3>
+                <p>$20.000</p>
+                <p>Age of Empires IV es un juego de estrategia en tiempo real que te transporta a diversas épocas históricas, donde podrás liderar una de varias civilizaciones en su lucha por la supremacía. Con gráficos impresionantes, una jugabilidad accesible y un enfoque en la construcción de imperios, batallas épicas y desarrollo de tecnologías, Age of Empires IV te ofrece una experiencia profunda y desafiante, ideal tanto para nuevos jugadores como veteranos de la serie.</p>
+            </div>
+        </div>
+        <div class="product">
+            <img class="productimage" src="img/starcraft2caratula.jpg">
+            <div class="product-info">
+                <h3>Starcraft II: Wings of liberty</h3>
+                <p>$15.000</p>
+                <p>StarCraft II es un juego de estrategia en tiempo real que te sumerge en una guerra intergaláctica entre tres facciones únicas: los Terran, los Zerg y los Protoss. Con una narrativa envolvente, un sistema de juego competitivo y un enfoque en la micromanipulación y la estrategia, StarCraft II ofrece desafíos intensos, tanto en su modo campaña como en sus combates multijugador. Es un referente de los eSports y un clásico del género RTS.</p>
+            </div>
+        </div>
+    </section>
+    <div class="spacer"></div>
+    <footer>
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="banner text-center p-4">
+        <h1>Mi Carrito de Compras</h1>
+        <p class="mainText">Revisa tus productos seleccionados y completa tu compra</p>
+    </div>
+
+    <section class="container mt-5">
+        <div class="cart-container">
+            <div class="table-responsive">
+                <table class="table cart-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Subtotal</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="img/forzahorizon5caratula.jpg" class="cart-item-img mr-3" alt="Forza Horizon 5">
+                                    <div>
+                                        <h5 class="mb-0">Forza Horizon 5</h5>
+                                        <small class="text-muted">Xbox Series X</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>$20.000</td>
+                            <td>
+                                <div class="quantity-control">
+                                    <button class="quantity-btn">-</button>
+                                    <input type="text" class="quantity-input" value="1">
+                                    <button class="quantity-btn">+</button>
+                                </div>
+                            </td>
+                            <td>$20.000</td>
+                            <td>
+                                <button class="remove-btn">✕</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="img/nierauomatacaratula.avif" class="cart-item-img mr-3" alt="NieR: Automata">
+                                    <div>
+                                        <h5 class="mb-0">NieR: Automata</h5>
+                                        <small class="text-muted">PlayStation 4</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>$15.000</td>
+                            <td>
+                                <div class="quantity-control">
+                                    <button class="quantity-btn">-</button>
+                                    <input type="text" class="quantity-input" value="1">
+                                    <button class="quantity-btn">+</button>
+                                </div>
+                            </td>
+                            <td>$15.000</td>
+                            <td>
+                                <button class="remove-btn">✕</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="img/aoe4caratula.webp" class="cart-item-img mr-3" alt="Age of Empires IV">
+                                    <div>
+                                        <h5 class="mb-0">Age of Empires IV</h5>
+                                        <small class="text-muted">PC Digital</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>$10.000</td>
+                            <td>
+                                <div class="quantity-control">
+                                    <button class="quantity-btn">-</button>
+                                    <input type="text" class="quantity-input" value="1">
+                                    <button class="quantity-btn">+</button>
+                                </div>
+                            </td>
+                            <td>$10.000</td>
+                            <td>
+                                <button class="remove-btn">✕</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="empty-cart" style="display: none;">
+                <h3>Tu carrito está vacío</h3>
+                <p>Explora nuestro catálogo y añade productos a tu carrito</p>
+                <a href="Catalogo.html" class="btn btn-primary mt-3">Ver Catálogo</a>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="coupon">¿Tienes un cupón de descuento?</label>
+                        <div class="coupon-group">
+                            <input type="text" class="form-control" id="coupon" placeholder="Ingresa tu código">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button">✔</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="total-section">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>$45.000</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Descuento:</span>
+                            <span>$0</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Envío:</span>
+                            <span>$5.000</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-2">
+                            <strong>Total:</strong>
+                            <strong>$50.000</strong>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 mb-2">
+                                <a href="Catalogo.html" class="btn continue-shopping-btn btn-register">Seguir Comprando</a>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <button class="btn checkout-btn btn-register">Finalizar Compra</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center p-3 mt-4 bg-dark text-white">
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <script src="js/carrito.js"></script>
+    <script src="js/header.js"></script>
+
+</body>
+</html>

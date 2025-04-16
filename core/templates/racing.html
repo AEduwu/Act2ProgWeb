@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="sidebar">
+        <h2>CATEGORÍAS</h2>
+        <ul>
+            <li><a href="{% url 'terror' %}">Terror</a></li>
+            <li><a href="{% url 'adventure' %}">Acción/Aventura</a></li>
+            <li><a href="{% url 'strategy' %}">Estrategia</a></li>
+            <li><a href="{% url 'shooter' %}">Shooter</a></li>
+            <li><a href="{% url 'racing' %}">Racing</a></li>
+        </ul>
+    </div>
+    <div class="banner-racing">
+        <h1>Racing</h1>
+    </div>
+    <section id="products">
+        <div class="product">
+            <img class="productimage" src="img/forzahorizon5caratula.jpg">
+            <div class="product-info">
+                <h3>Forza Horizon 5</h3>
+                <p>$40.000</p>
+                <p>Forza Horizon 5 es un juego de carreras en mundo abierto que te lleva a un México vibrante y diverso, con paisajes impresionantes y una enorme variedad de coches para personalizar y conducir. Con un sistema de clima dinámico, eventos emocionantes y una jugabilidad accesible pero desafiante, Forza Horizon 5 ofrece la experiencia definitiva para los amantes de la velocidad y la exploración.</p>
+            </div>
+        </div>
+        <div class="product">
+            <img class="productimage" src="img/nfsheatcaratula.jpg">
+            <div class="product-info">
+                <h3>Need for Speed HEAT</h3>
+                <p>$20.000</p>
+                <p>Need for Speed Heat es un juego de carreras callejeras que te sumerge en la ciudad de Palm City, donde el día es para las competencias legales y la noche para intensas carreras ilegales perseguidas por la policía. Con un amplio sistema de personalización, una jugabilidad adrenalínica y un mundo vibrante, NFS Heat combina lo mejor de la velocidad, la acción y el estilo urbano.</p>
+            </div>
+        </div>
+    </section>
+    <div class="spacer"></div>
+    <footer>
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>

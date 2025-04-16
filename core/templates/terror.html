@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="sidebar">
+        <h2>CATEGORÍAS</h2>
+        <ul>
+            <li><a href="{% url 'terror' %}">Terror</a></li>
+            <li><a href="{% url 'adventure' %}">Acción/Aventura</a></li>
+            <li><a href="{% url 'strategy' %}">Estrategia</a></li>
+            <li><a href="{% url 'shooter' %}">Shooter</a></li>
+            <li><a href="{% url 'racing' %}">Racing</a></li>
+        </ul>
+    </div>
+    <div class="banner-terror">
+        <h1>Terror</h1>
+    </div>
+    <section id="products">
+        <div class="product">
+            <img class="productimage" src="img/silenthill2caratula.avif">
+            <div class="product-info">
+                <h3>Silent hill 2 Remake</h3>
+                <p>$44.000</p>
+                <p>Silent Hill 2 es un icónico survival horror que sigue a James Sunderland, quien recibe una misteriosa carta de su esposa fallecida, invitándolo a regresar a la inquietante ciudad de Silent Hill. Allí, enfrentará criaturas terroríficas y descubrirá oscuros secretos mientras se sumerge en una historia psicológica llena de misterio, culpa y horror. Con una atmósfera opresiva, una narrativa profunda y múltiples finales, Silent Hill 2 es una experiencia inolvidable para los amantes del terror.</p>
+            </div>
+        </div>
+        <div class="product">
+            <img class="productimage" src="img/residentevil8caratula.jpg">
+            <div class="product-info">
+                <h3>Resident Evil Village</h3>
+                <p>$44.000</p>
+                <p>Resident Evil Village (Resident Evil 8) es un survival horror que sigue a Ethan Winters, quien, tras vivir una pesadilla en Resident Evil 7, se ve obligado a adentrarse en un siniestro pueblo europeo en busca de su hija secuestrada. Allí, enfrentará aterradoras criaturas, incluyendo a la imponente Lady Dimitrescu y otros horrores. Con una jugabilidad intensa, exploración, combate y una historia llena de giros, Resident Evil Village ofrece una experiencia de terror y acción inolvidable.</p>
+            </div>
+        </div>
+    </section>
+    <div class="spacer"></div>
+    <footer>
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>

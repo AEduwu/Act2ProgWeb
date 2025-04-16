@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="sidebar">
+        <h2>CATEGORÍAS</h2>
+        <ul>
+            <li><a href="{% url 'terror' %}">Terror</a></li>
+            <li><a href="{% url 'adventure' %}">Acción/Aventura</a></li>
+            <li><a href="{% url 'strategy' %}">Estrategia</a></li>
+            <li><a href="{% url 'shooter' %}">Shooter</a></li>
+            <li><a href="{% url 'racing' %}">Racing</a></li>
+        </ul>
+    </div>
+    <div class="banner-adventure">
+        <h1>Accion/Aventura</h1>
+    </div>
+    <section id="products">
+        <div class="product">
+            <img class="productimage" src="{% static 'img/nierreplicantcaratula.webp' %}" >
+            <div class="product-info">
+                <h3>NieR replicant ver 1.2247</h3>
+                <p>$30.000</p>
+                <p>Nier Replicant ver.1.22474487139… es la remasterización de Nier, donde un joven lucha para encontrar una cura para su hermana en un mundo devastado. Con un sistema de combate fluido, una historia emocionalmente profunda y una banda sonora memorable, esta versión mejorada ofrece gráficos renovados y una experiencia única para nuevos jugadores y fanáticos de la saga.</p>
+            </div>
+        </div>
+        <div class="product">
+            <img class="productimage" src="{% static 'img/nierauomatacaratula.avif' %}" >
+            <div class="product-info">
+                <h3>NieR: Automata</h3>
+                <p>$25.000</p>
+                <p>Nier: Automata es un RPG de acción desarrollado por PlatinumGames y publicado por Square Enix. Ambientado en un mundo postapocalíptico, sigue la historia de los androides 2B, 9S y A2 en su lucha contra máquinas alienígenas para recuperar la Tierra. Con un sistema de combate fluido, una narrativa profunda llena de giros y una banda sonora impresionante, ofrece una experiencia única que mezcla acción, exploración y reflexión filosófica sobre la humanidad y la existencia.</p>
+            </div>
+        </div>
+    </section>
+    <div class="spacer"></div>
+    <footer>
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>

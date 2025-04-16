@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="banner text-center p-4">
+        <h1>¡Bienvenido a TodoJuegos!</h1>
+        <p class="mainText">En TodoJuegos encontrarás los mejores juegos para todas las consolas y plataformas.</p>
+        <p class="mainText">¡No esperes más y encuentra el juego que estás buscando!</p>
+    </div>
+
+    <section class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-4 text-center text-md-left order-1 order-md-0">
+                <h2>Estrenos</h2>
+            </div>
+    
+            <div class="col-12 col-md-8 order-0 order-md-1">
+                <div id="carouselEstrenos" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{% static 'img/assasinscreedshadowscaratula.png' %}" class="d-block w-100" alt="Assassin's Creed Shadows">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/gameofthroneskingsroadcaratula.png' %}" class="d-block w-100" alt="Game of Thrones Kings Road">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/khazancaratula.png' %}" class="d-block w-100" alt="Khazan">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'img/commandoscaratula.png' %}" class="d-block w-100" alt="Commandos">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselEstrenos" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselEstrenos" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mt-5">
+        <div class="text-center mb-4">
+            <h2>Ofertas destacadas</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'img/forzahorizon5caratula.jpg' %}" alt="Forza Horizon 5">
+                    <div class="card-body">
+                        <h5 class="card-title">Forza Horizon 5</h5>
+                        <p class="card-text">$20.000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'img/nierauomatacaratula.avif' %}" alt="NieR: Automata">
+                    <div class="card-body">
+                        <h5 class="card-title">NieR: Automata</h5>
+                        <p class="card-text">$15.000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'img/aoe4caratula.webp' %}" alt="Age of Empires IV">
+                    <div class="card-body">
+                        <h5 class="card-title">Age of Empires IV</h5>
+                        <p class="card-text">$10.000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <div class="spacer"></div>
+
+    <footer class="text-center p-3 mt-4 bg-dark text-white">
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/header.js' %}"></script>
+
+</body>
+</html>

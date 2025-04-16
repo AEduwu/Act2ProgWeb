@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="sidebar">
+        <h2>CATEGORÍAS</h2>
+        <ul>
+            <li><a href="{% url 'terror' %}">Terror</a></li>
+            <li><a href="{% url 'adventure' %}">Acción/Aventura</a></li>
+            <li><a href="{% url 'strategy' %}">Estrategia</a></li>
+            <li><a href="{% url 'shooter' %}">Shooter</a></li>
+            <li><a href="{% url 'racing' %}">Racing</a></li>
+        </ul>
+    </div>
+    <div class="banner-shooter">
+        <h1>Shooter</h1>
+    </div>
+    <section id="products">
+        <div class="product">
+            <img class="productimage" src="img/battlefield2042caratula.webp">
+            <div class="product-info">
+                <h3>Battlefield 2042</h3>
+                <p>$44.000</p>
+                <p>Battlefield 2042 es un juego de disparos en primera persona que lleva la serie a un futuro cercano, donde la guerra se libra en enormes mapas dinámicos con hasta 128 jugadores en batallas masivas. Con vehículos de combate, tormentas de arena, y la posibilidad de modificar el campo de batalla en tiempo real, Battlefield 2042 ofrece una experiencia inmersiva y destructiva, perfecta para los amantes de la acción a gran escala y el combate estratégico.</p>
+            </div>
+        </div>
+        <div class="product">
+            <img class="productimage" src="img/codbo4caratula.jpg">
+            <div class="product-info">
+                <h3>Call of Duty Black Ops 4</h3>
+                <p>$44.000</p>
+                <p>Call of Duty: Black Ops 4 es un juego de disparos en primera persona que se centra en la acción rápida y multijugador, eliminando la tradicional campaña para centrarse en modos como Blackout, su popular modo battle royale. Además, incluye Zombies y una experiencia multijugador clásica con mapas innovadores y mecánicas de juego dinámicas. Con una jugabilidad fluida y frenética, BO4 ofrece intensas batallas y opciones estratégicas para jugadores competitivos.</p>
+            </div>
+        </div>
+    </section>
+    <div class="spacer"></div>
+    <footer>
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>

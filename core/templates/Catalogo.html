@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoJuegos</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo de TodoJuegos" width="120" class="me-2">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'catalogo' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-icon" href="{% url 'carrito' %}">
+                                🛒 Carrito
+                                <span class="cart-count"> 3 </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="banner">
+        <h1>Tus mejores juegos se encuentran aqui!</h1>
+        <p class="mainText">Encuentra los ultimos titulos, los clasicos y los novedosos, todo esta aqui en TodoJuegos</p>
+    </div>
+    
+    <section>
+        <h2>Categorias</h2>
+        <div class="bannercontainer">
+            <div class="bannerbutton" href="{% url 'terror' %}" onclick="location.href='{% url 'terror' %}'">
+                <img class="categorieimage" src="{% static 'img/terror.png' %}" alt="Imagen categoria terror">
+                <div class="bannertext">Terror</div>
+            </div>
+        </div>
+
+        <div class="bannercontainer">
+            <div class="bannerbutton" href="{% url 'adventure' %}" onclick="location.href='{% url 'adventure' %}'">
+                <img class="categorieimage" src="{% static 'img/adventure.png' %}" alt="Imagen categoria aventura">
+                <div class="bannertext">Accion/Aventura</div>
+            </div>
+        </div>
+
+        <div class="bannercontainer">
+            <div class="bannerbutton" href="{% url 'strategy' %}" onclick="location.href='{% url 'strategy' %}'">
+                <img class="categorieimage" src="{% static 'img/strategy.png' %}" alt="Imagen categoria estrategia">
+                <div class="bannertext">Estrategia</div>
+            </div>
+        </div>
+
+        <div class="bannercontainer">
+            <div class="bannerbutton" href="{% url 'shooter' %}" onclick="location.href='{% url 'shooter' %}'">
+                <img class="categorieimage" src="{% static 'img/shooter.png' %}" alt="Imagen categoria shooter">
+                <div class="bannertext">Shooter</div>
+            </div>
+        </div>
+        
+        <div class="bannercontainer">
+            <div class="bannerbutton" href="{% url 'racing' %}" onclick="location.href='{% url 'racing' %}'">
+                <img class="categorieimage" src="{% static 'img/racing.png' %}" alt="Imagen categoria carreras">
+                <div class="bannertext">Racing</div>
+            </div>
+        </div>
+    </section>
+
+    <h2>Ofertas destacadas</h2>
+
+    <div class="spacer"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-4">
+                <div class="card">
+                    <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="img/forzahorizon5caratula.jpg" alt="Forza Horizon 5">
+                    <div class="card-body p-4">
+                        <p class="text-primary card-text mb-0">$20.000</p>
+                        <h4 class="card-title">Forza Horizon 5</h4>
+                        <p class="card-text">Forza Horizon 5 es un juego de carreras en mundo abierto que te lleva a
+                            un México vibrante y diverso, con paisajes impresionantes y una enorme
+                            variedad de coches para personalizar y conducir. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4">
+                <div class="card">
+                    <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="img/nierauomatacaratula.avif" alt="NieR: Automata">
+                    <div class="card-body p-4">
+                        <p class="text-primary card-text mb-0">$15.000</p>
+                        <h4 class="card-title">NieR: Automata</h4>
+                        <p class="card-text">Nier: Automata es un RPG de acción desarrollado por PlatinumGames y
+                            publicado por Square Enix. Ambientado en un mundo postapocalíptico,
+                            sigue la historia de los androides 2B, 9S y A2 en su lucha contra
+                            máquinas alienígenas para recuperar la Tierra. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4">
+                <div class="card">
+                    <img class="card-img-top w-100" style="height: 200px; object-fit: cover;" src="img/aoe4caratula.webp" alt="Age of Empires IV">
+                    <div class="card-body p-4">
+                        <p class="text-primary card-text mb-0">$10.000</p>
+                        <h4 class="card-title">Age of Empires IV</h4>
+                        <p class="card-text">Age of Empires IV es un juego de estrategia en tiempo real que te
+                            transporta a diversas épocas históricas, donde podrás liderar una de
+                            varias civilizaciones en su lucha por la supremacía. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <footer>
+        <p>Desarrollado por Grupo 2, DUOC UC</p>
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>
