@@ -44,10 +44,31 @@ $(document).ready(function() {
                 $("#errorFechaNacimiento").text("Debes tener al menos 13 años");
                 isValid = false;
             }
-            
+
             if (isValid) {
-                alert("Formulario enviado con éxito");
-                this.submit();
+                const datos = {
+                    name: nombre,
+                    username: usuario,
+                    email: email,
+                    password: password,
+                    born_date: $("#fechaNacimiento").val(),
+                    adress: $("#direccion").val().trim()
+                };
+            
+                $.ajax({
+                    type: "POST",
+                    url: "/core/registrar_usuario/",
+                    data: JSON.stringify(datos),
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert(response.mensaje);
+                        $("#registroForm")[0].reset();
+                    },
+                    error: function(xhr) {
+                        alert("Error: " + xhr.responseJSON.error);
+                    }
+                });
             }
+
         });
     });
