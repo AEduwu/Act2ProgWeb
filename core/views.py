@@ -42,20 +42,30 @@ def strategy(request):
 def terror(request):
     return render(request, 'terror.html')
 
+@csrf_exempt
 def register_user(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-
         try:
-            USER = USER.objects.create(
-                nombre=data['nombre'],
-                username=data['usuario'],
-                correo=data['correo'],
-                contrasena=make_password(data['contrasena']),
-                fecha_nacimiento=data['fechaNacimiento'],
-                direccion=data.get('direccion', '')
+            data = json.loads(request.body)
+            email = data['email']
+
+            if USER.objects.filter(email=email).exists():
+                return JsonResponse({'error': 'El correo ya está registrado'}, status=400)
+            
+            if USER.objects.filter(username=data['username']).exists():
+                return JsonResponse({'error': 'El nombre de usuario ya está en uso'}, status=400)
+
+            user = USER.objects.create(
+                name=data['name'],
+                username=data['username'],
+                email=email,
+                password=make_password(data['password']),
+                born_date=data['born_date'],
+                adress=data.get('adress', '')
             )
             return JsonResponse({'mensaje': 'Usuario registrado correctamente'})
+
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
     return JsonResponse({'error': 'Método no permitido'}, status=405)

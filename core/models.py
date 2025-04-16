@@ -13,7 +13,7 @@ class USER(models.Model):
     profile_pic = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
 
     def __str__(self):
-        return self.correo
+        return self.email
     
 class CATEGORY(models.Model):
     cod_category = models.AutoField(primary_key=True)

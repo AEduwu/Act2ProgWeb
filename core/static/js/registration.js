@@ -57,7 +57,7 @@ $(document).ready(function() {
             
                 $.ajax({
                     type: "POST",
-                    url: "/core/registrar_usuario/",
+                    url: "/registrar_usuario/",
                     data: JSON.stringify(datos),
                     contentType: "application/json",
                     success: function(response) {
