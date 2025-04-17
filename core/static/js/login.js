@@ -1,31 +1,50 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("loginForm");
-    const userInput = document.getElementById("user");
-    const passwordInput = document.getElementById("password");
-    const errorUser = document.getElementById("errorUser");
-    const errorPassword = document.getElementById("errorPassword");
+loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    let isValid = true;
 
-    loginForm.addEventListener("submit", function (event) {
-        let isValid = true;
-        
-        errorUser.textContent = "";
-        errorPassword.textContent = "";
+    errorUser.textContent = "";
+    errorPassword.textContent = "";
 
-        if (userInput.value.trim() === "") {
-            errorUser.textContent = "El usuario es obligatorio.";
-            isValid = false;
-        }
+    const email = userInput.value.trim();
+    const password = passwordInput.value.trim();
 
-        if (passwordInput.value.trim() === "") {
-            errorPassword.textContent = "La contraseña es obligatoria.";
-            isValid = false;
-        }
+    if (email === "") {
+        errorUser.textContent = "El usuario es obligatorio.";
+        isValid = false;
+    }
 
-        if (!isValid) {
-            event.preventDefault();
-        } else {
-            window.location.href = "profile.html";
-            event.preventDefault();
-        }
-    });
+    if (password === "") {
+        errorPassword.textContent = "La contraseña es obligatoria.";
+        isValid = false;
+    }
+
+    if (isValid) {
+        fetch("/user_login/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.mensaje) {
+                alert(data.mensaje);
+                window.location.href = "/profile/"; 
+            } else if (data.error) {
+                if (data.error.includes("Usuario")) {
+                    errorUser.textContent = data.error;
+                } else {
+                    errorPassword.textContent = data.error;
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Error en login:", error);
+            alert("Ocurrió un error al intentar iniciar sesión.");
+        });
+    }
 });

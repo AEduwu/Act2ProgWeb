@@ -3,7 +3,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import USER
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -19,7 +20,11 @@ def forgot_password(request):
     return render(request, 'forgotPassword.html')
 
 def profile(request):
-    return render(request, 'profile.html')
+    if 'usuario' not in request.session:
+        return render(request, 'login.html', {'error': 'Debes iniciar sesión'})
+
+    usuario = USER.objects.get(email=request.session['usuario'])
+    return render(request, 'profile.html', {'user': usuario})
 
 def catalogo(request):
     return render(request, 'Catalogo.html')
@@ -67,5 +72,25 @@ def register_user(request):
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def user_login(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        password = data.get('password')
+
+        try:
+            usuario = USER.objects.get(email=email)
+        except USER.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+
+        if check_password(password, usuario.password):
+            request.session['usuario'] = usuario.email
+            return JsonResponse({'mensaje': 'Login exitoso'})
+        else:
+            return JsonResponse({'error': 'Contraseña incorrecta'}, status=401)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)

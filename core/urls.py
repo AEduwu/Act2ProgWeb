@@ -15,4 +15,5 @@ urlpatterns = [
     path('strategy/', views.strategy, name='strategy'),
     path('terror/', views.terror, name='terror'),
     path('registrar_usuario/', views.register_user, name='registrar_usuario'),
+    path('user_login/', views.user_login, name='user_login'), 
     ]
