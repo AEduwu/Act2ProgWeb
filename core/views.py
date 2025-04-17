@@ -19,6 +19,7 @@ def registration(request):
 def forgot_password(request):
     return render(request, 'forgotPassword.html')
 
+@login_required
 def profile(request):
     if 'usuario' not in request.session:
         return render(request, 'login.html', {'error': 'Debes iniciar sesión'})
