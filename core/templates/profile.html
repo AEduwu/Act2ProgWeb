@@ -31,13 +31,35 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'catalogo' %}">Categorías</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
-                        </li>
+    
+                        {% if not user_username %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hola {{ user_username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
+                                    <li><a class="dropdown-item active" href="{% url 'profile' %}">Modificar Mi Perfil</a></li>
+    
+                                    {% if request.session.user_rol == 2 %}
+                                        <li><a class="dropdown-item" href="{% url 'gameAdministration' %}">Administrar Juegos</a></li>
+                                    {% endif %}
+    
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'close_session' %}">Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+    
                         <li class="nav-item">
                             <a class="nav-link cart-icon" href="{% url 'carrito' %}">
                                 🛒 Carrito
-                                <span class="cart-count"> 3 </span>
+                                <span class="cart-count">
+                                    {{request.session.cart|length|default:"0"}}
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -97,6 +119,7 @@
     </footer>
 
     <script src="{% static 'js/header.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

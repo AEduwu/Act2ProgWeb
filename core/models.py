@@ -4,6 +4,11 @@ from django.http import JsonResponse
 
 # Create your models here.
 class USER(models.Model):
+    ROL_CHOICES = (
+        (1, 'Usuario'),
+        (2, 'Administrador'),
+    )
+
     email = models.EmailField(primary_key=True)
     password = models.CharField(max_length=128)
     name = models.CharField(max_length=100)
@@ -11,6 +16,7 @@ class USER(models.Model):
     born_date = models.DateField()
     adress = models.CharField(max_length=200, blank=True, null=True)
     profile_pic = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+    rol = models.IntegerField(choices=ROL_CHOICES, default=1)
 
     def __str__(self):
         return self.email

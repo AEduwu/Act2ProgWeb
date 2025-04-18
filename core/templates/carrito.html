@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,13 +32,35 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'catalogo' %}">Categorías</a>
                         </li>
+    
+                        {% if not user_username %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hola {{ user_username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}">Modificar Mi Perfil</a></li>
+    
+                                    {% if request.session.user_rol == 2 %}
+                                        <li><a class="dropdown-item" href="{% url 'gameAdministration' %}">Administrar Juegos</a></li>
+                                    {% endif %}
+    
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'close_session' %}">Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+    
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active cart-icon" href="{% url 'carrito' %}">
+                            <a class="nav-link cart-icon active" href="{% url 'carrito' %}">
                                 🛒 Carrito
-                                <span class="cart-count"> 3 </span>
+                                <span class="cart-count">
+                                    {{request.session.cart|length|default:"0"}}
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -52,142 +75,65 @@
     </div>
 
     <section class="container mt-5">
-        <div class="cart-container">
-            <div class="table-responsive">
-                <table class="table cart-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Subtotal</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="img/forzahorizon5caratula.jpg" class="cart-item-img mr-3" alt="Forza Horizon 5">
-                                    <div>
-                                        <h5 class="mb-0">Forza Horizon 5</h5>
-                                        <small class="text-muted">Xbox Series X</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>$20.000</td>
-                            <td>
-                                <div class="quantity-control">
-                                    <button class="quantity-btn">-</button>
-                                    <input type="text" class="quantity-input" value="1">
-                                    <button class="quantity-btn">+</button>
-                                </div>
-                            </td>
-                            <td>$20.000</td>
-                            <td>
-                                <button class="remove-btn">✕</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="img/nierauomatacaratula.avif" class="cart-item-img mr-3" alt="NieR: Automata">
-                                    <div>
-                                        <h5 class="mb-0">NieR: Automata</h5>
-                                        <small class="text-muted">PlayStation 4</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>$15.000</td>
-                            <td>
-                                <div class="quantity-control">
-                                    <button class="quantity-btn">-</button>
-                                    <input type="text" class="quantity-input" value="1">
-                                    <button class="quantity-btn">+</button>
-                                </div>
-                            </td>
-                            <td>$15.000</td>
-                            <td>
-                                <button class="remove-btn">✕</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="img/aoe4caratula.webp" class="cart-item-img mr-3" alt="Age of Empires IV">
-                                    <div>
-                                        <h5 class="mb-0">Age of Empires IV</h5>
-                                        <small class="text-muted">PC Digital</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>$10.000</td>
-                            <td>
-                                <div class="quantity-control">
-                                    <button class="quantity-btn">-</button>
-                                    <input type="text" class="quantity-input" value="1">
-                                    <button class="quantity-btn">+</button>
-                                </div>
-                            </td>
-                            <td>$10.000</td>
-                            <td>
-                                <button class="remove-btn">✕</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        {% if cart|length == 0 %}
+          <div class="empty-cart">
+            <h3>Tu carrito está vacío</h3>
+            <a href="{% url 'catalogo' %}" class="btn btn-primary">Ver Catálogo</a>
+          </div>
+        {% else %}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>…</thead>
+              <tbody>
+                {% for item in cart %}
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img src="{{ item.game.game_picture.url }}"
+                             class="cart-item-img mr-3" alt="{{ item.game.game_name }}">
+                        <div>
+                          <h5>{{ item.game.game_name }}</h5>
+                        </div>
+                      </div>
+                    </td>
+                    <td>${{ item.price|intcomma }}</td>
+                    <td>
+                      <form action="{% url 'cart_add' item.game.cod_game %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="quantity-btn">+</button>
+                      </form>
+                      {{ item.quantity }}
+                      <form action="{% url 'cart_remove' item.game.cod_game %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="quantity-btn">−</button>
+                      </form>
+                    </td>
+                    <td>${{ item.subtotal|intcomma }}</td>
+                    <td>
+                      <form action="{% url 'cart_remove' item.game.cod_game %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="remove-btn">✕</button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+    
+          <div class="total-section">
+            <div class="d-flex justify-content-between"><span>Subtotal:</span><span>${{ subtotal|intcomma }}</span></div>
+            <div class="d-flex justify-content-between"><span>Envío:</span><span>${{ shipping|intcomma }}</span></div>
+            <hr>
+            <div class="d-flex justify-content-between"><strong>Total:</strong><strong>${{ total|intcomma }}</strong></div>
+            <div class="mt-3">
+              <a href="{% url 'catalogo' %}" class="btn btn-secondary">Seguir Comprando</a>
+              <a href="{% url 'checkout' %}" class="btn btn-success">Finalizar Compra</a>
             </div>
-
-            <div class="empty-cart" style="display: none;">
-                <h3>Tu carrito está vacío</h3>
-                <p>Explora nuestro catálogo y añade productos a tu carrito</p>
-                <a href="Catalogo.html" class="btn btn-primary mt-3">Ver Catálogo</a>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="coupon">¿Tienes un cupón de descuento?</label>
-                        <div class="coupon-group">
-                            <input type="text" class="form-control" id="coupon" placeholder="Ingresa tu código">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">✔</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="total-section">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotal:</span>
-                            <span>$45.000</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Descuento:</span>
-                            <span>$0</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Envío:</span>
-                            <span>$5.000</span>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-2">
-                            <strong>Total:</strong>
-                            <strong>$50.000</strong>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6 mb-2">
-                                <a href="Catalogo.html" class="btn continue-shopping-btn btn-register">Seguir Comprando</a>
-                            </div>
-                            <div class="col-md-6 mb-2">
-                                <button class="btn checkout-btn btn-register">Finalizar Compra</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+          </div>
+        {% endif %}
+      </section>
 
     <footer class="text-center p-3 mt-4 bg-dark text-white">
         <p>Desarrollado por Grupo 2, DUOC UC</p>
@@ -196,8 +142,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
-    <script src="{% static 'js/carrito.js' %}"></script>
     <script src="{% static 'js/header.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>

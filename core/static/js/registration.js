@@ -52,7 +52,8 @@ $(document).ready(function() {
                     email: email,
                     password: password,
                     born_date: $("#fechaNacimiento").val(),
-                    adress: $("#direccion").val().trim()
+                    adress: $("#direccion").val().trim(),
+                    rol: parseInt($("#rol").val())
                 };
             
                 $.ajax({
