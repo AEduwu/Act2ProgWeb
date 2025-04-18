@@ -5,10 +5,12 @@ import json
 from .models import USER
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'index.html', {'user_username': user_username})
 
 def login(request):
     return render(request, 'login.html')
@@ -28,25 +30,32 @@ def profile(request):
     return render(request, 'profile.html', {'user': usuario})
 
 def catalogo(request):
-    return render(request, 'Catalogo.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'Catalogo.html', {'user_username': user_username})
 
 def carrito(request):
-    return render(request, 'carrito.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'carrito.html', {'user_username': user_username})
 
 def adventure(request):
-    return render(request, 'adventure.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'adventure.html', {'user_username': user_username})
 
 def racing(request):
-    return render(request, 'racing.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'racing.html', {'user_username': user_username})
 
 def shooter(request):
-    return render(request, 'shooter.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'shooter.html', {'user_username': user_username})
 
 def strategy(request):
-    return render(request, 'strategy.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'strategy.html', {'user_username': user_username})
 
 def terror(request):
-    return render(request, 'terror.html')
+    user_username = request.session.get('user_username', None)
+    return render(request, 'terror.html', {'user_username': user_username})
 
 @csrf_exempt
 def register_user(request):
@@ -80,8 +89,8 @@ def register_user(request):
 def user_login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        email = data.get('email')
-        password = data.get('password')
+        email = data.get('correo')
+        password = data.get('clave')
 
         try:
             usuario = USER.objects.get(email=email)
@@ -89,9 +98,14 @@ def user_login(request):
             return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
 
         if check_password(password, usuario.password):
-            request.session['usuario'] = usuario.email
+            request.session['user_email'] = usuario.email
+            request.session['user_username'] = usuario.username
             return JsonResponse({'mensaje': 'Login exitoso'})
         else:
             return JsonResponse({'error': 'Contraseña incorrecta'}, status=401)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+def close_session(request):
+    request.session.flush()
+    return redirect('index')

@@ -1,63 +1,48 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm     = document.getElementById("loginForm");
-    const userInput     = document.getElementById("user");
-    const passwordInput = document.getElementById("password");
-    const errorUser     = document.getElementById("errorUser");
-    const errorPassword = document.getElementById("errorPassword");
-  
-    if (!loginForm || !userInput || !passwordInput) {
-      console.error("Faltan IDs en el DOM: verifica #loginForm, #user, #password");
-      return;
-    }
-  
-    loginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      console.log("Submit capturado");
-  
-      errorUser.textContent = "";
-      errorPassword.textContent = "";
-  
-      const email    = userInput.value.trim();
-      const password = passwordInput.value.trim();
-  
-      let isValid = true;
-      if (!email) {
-        errorUser.textContent = "El usuario es obligatorio.";
-        isValid = false;
-      }
-      if (!password) {
-        errorPassword.textContent = "La contraseña es obligatoria.";
-        isValid = false;
-      }
-      if (!isValid) return;
-  
-      console.log("Enviando login:", { email, password });
-  
-      fetch("/user_login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      })
-      .then(res => {
-        console.log("Status:", res.status);
-        return res.json();
-      })
-      .then(data => {
-        console.log("Respuesta JSON:", data);
-        if (data.mensaje) {
-          alert(data.mensaje);
-          window.location.href = "/profile/";
-        } else if (data.error) {
-          if (data.error.toLowerCase().includes("usuario")) {
-            errorUser.textContent = data.error;
-          } else {
-            errorPassword.textContent = data.error;
-          }
+  $(document).ready(function () {
+    $("#loginForm").submit(function (event) {
+        event.preventDefault();
+        let isValid = true;
+
+        $(".error-message").hide();
+        $(".form-control").removeClass("is-invalid");
+
+        if ($("#user").val().trim() === "") {
+            $("#user").addClass("is-invalid");
+            $("#user").next(".error-message").text("El correo es obligatorio.").show();
+            isValid = false;
         }
-      })
-      .catch(err => {
-        console.error("Error en fetch:", err);
-        alert("Ocurrió un error al intentar iniciar sesión.");
-      });
+
+        if ($("#password").val().trim() === "") {
+            $("#password").addClass("is-invalid");
+            $("#password").next(".error-message").text("La contraseña es obligatoria.").show();
+            isValid = false;
+        }
+
+        if (isValid) {
+
+            const datos = {
+                correo: $("#user").val(),
+                clave: $("#password").val()
+            };
+        
+            $.ajax({
+                url: "/user_login/",
+                type: "POST",
+                data: JSON.stringify(datos),
+                contentType: "application/json",
+                success: function (response) {
+                    alert(response.mensaje);
+                    $("#loginForm")[0].reset();
+                     window.location.href = "/catalogo/";
+                },
+                error: function (xhr) {
+                    const res = xhr.responseJSON;
+                    alert(res?.error || "Error al iniciar sesión.");
+                }
+            });
+
+
+        }
     });
-  });
+});
+
