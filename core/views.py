@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from .models import USER, GAME, CATEGORY
-from core.cart import Cart
+from .cart import Cart
+from decimal import Decimal
 import json
 
 def index(request):
@@ -39,9 +40,22 @@ def catalogo(request):
     return render(request, 'Catalogo.html', {'user_username': user_username, 'user_rol': user_rol})
 
 def carrito(request):
+    cart = Cart(request)
     user_username = request.session.get('user_username', None)
     user_rol = request.session.get('user_rol', None)
-    return render(request, 'carrito.html', {'user_username': user_username, 'user_rol': user_rol})
+    
+    context = {
+        'user_username': user_username,
+        'user_rol': user_rol,
+        'cart': cart,
+        'subtotal': cart.get_subtotal(),
+        'shipping': Decimal('5000'),
+        'discount': Decimal('0'),
+    }
+    
+    context['total'] = context['subtotal'] + context['shipping'] - context['discount']
+    
+    return render(request, 'carrito.html', context)
 
 def adventure(request):
     user_username = request.session.get('user_username', None)
@@ -64,9 +78,16 @@ def strategy(request):
     return render(request, 'strategy.html', {'user_username': user_username, 'user_rol': user_rol})
 
 def terror(request):
-    user_username = request.session.get('user_username', None)
-    user_rol = request.session.get('user_rol', None)
-    return render(request, 'terror.html', {'user_username': user_username, 'user_rol': user_rol})
+    user_username = request.session.get('user_username')
+    user_rol      = request.session.get('user_rol')
+
+    juegos_terror = GAME.objects.filter(cod_category_id=4)
+
+    return render(request, 'terror.html', {
+        'user_username': user_username,
+        'user_rol': user_rol,
+        'juegos': juegos_terror,
+    })
 
 def close_session(request):
     request.session.flush()
@@ -131,14 +152,28 @@ def cart_add(request, cod_game):
     cart = Cart(request)
     game = get_object_or_404(GAME, cod_game=cod_game)
     cart.add(game=game, quantity=1, override_quantity=False)
-    return redirect('cart_detail')
+    return redirect('carrito')
+
+@require_POST
+def cart_down(request, cod_game):
+    cart = Cart(request)
+    game = get_object_or_404(GAME, cod_game=cod_game)
+    
+    if str(game.cod_game) in cart.cart:
+        current_quantity = cart.cart[str(game.cod_game)]['quantity']
+        if current_quantity > 1:
+            cart.cart[str(game.cod_game)]['quantity'] -= 1
+        else:
+            cart.remove(game)
+    cart.save()
+    return redirect('carrito')
 
 @require_POST
 def cart_remove(request, cod_game):
     cart = Cart(request)
     game = get_object_or_404(GAME, cod_game=cod_game)
     cart.remove(game)
-    return redirect('cart_detail')
+    return redirect('carrito')
 
 def cart_detail(request):
     cart = Cart(request)
@@ -149,7 +184,7 @@ def cart_detail(request):
         'discount': Decimal('0'),
     }
     context['total'] = context['subtotal'] + context['shipping'] - context['discount']
-    return render(request, 'store/cart_detail.html', context)
+    return render(request, 'carrito.html', context)
 
 
 def gameAdministration(request):

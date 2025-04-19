@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -80,6 +81,28 @@
     <div class="banner-terror">
         <h1>Terror</h1>
     </div>
+
+    <section id="products">
+        {% for game in juegos %}
+          <div class="product">
+            <img class="productimage" src="{{ game.game_picture.url }}" alt="{{ game.game_name }}">
+            <div class="product-info">
+              <h3>{{ game.game_name }}</h3>
+              <p>${{ game.game_price }}</p>
+              <p>{{ game.game_description }}</p>
+              <form action="{% url 'cart_add' game.cod_game %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="add-to-cart">Añadir al carrito</button>
+              </form>
+            </div>
+          </div>
+        {% empty %}
+          <p>No hay juegos disponibles en esta categoría.</p>
+        {% endfor %}
+      </section>
+      
+
     <section id="products">
         <div class="product">
             <img class="productimage" src="{% static 'img/silenthill2caratula.avif' %}">

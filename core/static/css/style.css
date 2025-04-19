@@ -108,7 +108,7 @@ footer {
 }
 
 .banner-terror {
-    background-image: url("img/terror.png");
+    background-image: url('../img/terror.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -123,7 +123,7 @@ footer {
 }
 
 .banner-shooter {
-    background-image: url("img/shooter.png");
+    background-image: url('../img/shooter.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -138,7 +138,7 @@ footer {
 }
 
 .banner-adventure {
-    background-image: url("img/adventure.png");
+    background-image: url('../img/adventure.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -153,7 +153,7 @@ footer {
 }
 
 .banner-racing {
-    background-image: url("img/racing.png");
+    background-image: url('../img/racing.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -168,7 +168,7 @@ footer {
 }
 
 .banner-strategy {
-    background-image: url("img/strategy.png");
+    background-image: url('../img/strategy.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -601,4 +601,54 @@ a:hover {
 .form-delete button:focus {
     box-shadow: none;
     border: none;
+}
+
+.cart-img {
+    width: 60px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.table td,
+.table th {
+    vertical-align: middle !important;
+    padding: 16px;
+    font-size: 1rem;
+    background-color: #0f0f0f;
+}
+
+.table thead th {
+    font-size: 1.1rem;
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.qty-controls .btn,
+.remove-btn,
+.table button.btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 1.1rem;
+    border-radius: 0.4rem;
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .qty-controls .btn,
+    .remove-btn,
+    .table button.btn {
+        min-width: 36px;
+        min-height: 36px;
+        font-size: 1rem;
+    }
 }

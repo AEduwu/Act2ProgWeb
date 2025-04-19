@@ -77,9 +77,31 @@
             <li><a href="{% url 'racing' %}">Racing</a></li>
         </ul>
     </div>
+
     <div class="banner-racing">
         <h1>Racing</h1>
     </div>
+
+    <section id="products">
+        {% for game in juegos %}
+          <div class="product">
+            <img class="productimage" src="{{ game.game_picture.url }}" alt="{{ game.game_name }}">
+            <div class="product-info">
+              <h3>{{ game.game_name }}</h3>
+              <p>${{ game.game_price }}</p>
+              <p>{{ game.game_description }}</p>
+              <form action="{% url 'cart_add' game.cod_game %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="add-to-cart">Añadir al carrito</button>
+              </form>
+            </div>
+          </div>
+        {% empty %}
+          <p>No hay juegos disponibles en esta categoría.</p>
+        {% endfor %}
+      </section>
+
     <section id="products">
         <div class="product">
             <img class="productimage" src="{% static 'img/forzahorizon5caratula.jpg' %}" >
