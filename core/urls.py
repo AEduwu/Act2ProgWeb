@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -22,7 +24,12 @@ urlpatterns = [
     path('cart/remove/<int:cod_game>/', views.cart_remove, name='cart_remove'),
     path('gameAdministration/', views.gameAdministration, name='gameAdministration'),
     path('admin/juegos/', views.gameAdministration, name='game_admin'),
-    path('admin/juegos/create/', views.create_game, name='create_game'),
-    path('admin/juegos/update/<int:cod_game>/', views.update_game, name='update_game'),
-    path('admin/juegos/delete/<int:cod_game>/', views.delete_game, name='delete_game'),
+    path('juegos/', views.create_game, name='create_game'),
+    path('juegos/update/<int:cod_game>/', views.update_game, name='update_game'),
+    path('juegos/delete/<int:cod_game>/', views.delete_game, name='delete_game'),
+    path('recuperar/', views.recuperar_clave, name='recuperar_clave'),
+    path('restablecer/<uidb64>/', views.restablecer, name='restablecer'),
     ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

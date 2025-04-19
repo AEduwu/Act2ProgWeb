@@ -1,20 +1,15 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
-from .models import USER
-from django.contrib.auth.hashers import make_password, check_password
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_POST
-from core.models import GAME
-from core.cart import Cart
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import GAME, CATEGORY
+from django.http import JsonResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.contrib.auth.hashers import make_password, check_password
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from .models import USER, GAME, CATEGORY
+from core.cart import Cart
+import json
 
 def index(request):
     user_username = request.session.get('user_username', None)
@@ -30,7 +25,6 @@ def registration(request):
 def forgot_password(request):
     return render(request, 'forgotPassword.html')
 
-@csrf_exempt
 def profile(request):
     if 'usuario' not in request.session:
         return render(request, 'login.html', {'error': 'Debes iniciar sesión'})
@@ -73,6 +67,10 @@ def terror(request):
     user_username = request.session.get('user_username', None)
     user_rol = request.session.get('user_rol', None)
     return render(request, 'terror.html', {'user_username': user_username, 'user_rol': user_rol})
+
+def close_session(request):
+    request.session.flush()
+    return redirect('index')
 
 @csrf_exempt
 def register_user(request):
@@ -128,10 +126,6 @@ def user_login(request):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-def close_session(request):
-    request.session.flush()
-    return redirect('index')
-
 @require_POST
 def cart_add(request, cod_game):
     cart = Cart(request)
@@ -157,16 +151,22 @@ def cart_detail(request):
     context['total'] = context['subtotal'] + context['shipping'] - context['discount']
     return render(request, 'store/cart_detail.html', context)
 
+
 def gameAdministration(request):
     if 'user_email' not in request.session or request.session.get('user_rol') != 2:
         return redirect('login')
     
     user_username = request.session.get('user_username')
     user_rol = request.session.get('user_rol')
-    
+
+    juegos = GAME.objects.all()
+    categorias = CATEGORY.objects.all()
+
     return render(request, 'gameAdministration.html', {
         'user_username': user_username,
-        'user_rol': user_rol
+        'user_rol': user_rol,
+        'game': juegos,
+        'categoriy': categorias,
     })
 
 @csrf_exempt
@@ -187,7 +187,7 @@ def create_game(request):
             game_picture=picture,
             cod_category=category
         )
-        return redirect('game_admin')
+        return redirect('index')
 
 @csrf_exempt
 def update_game(request, cod_game):
@@ -203,10 +203,59 @@ def update_game(request, cod_game):
             game.game_picture = request.FILES['picture']
 
         game.save()
-        return redirect('game_admin')
+        return redirect('index')
 
 @csrf_exempt
 def delete_game(request, cod_game):
     game = get_object_or_404(GAME, pk=cod_game)
     game.delete()
-    return redirect('game_admin')
+    return redirect('index')
+
+
+@csrf_exempt
+def recuperar_clave(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        correo = data.get('correo', '').strip().lower()
+        try:
+            usuario = USER.objects.get(email=correo)
+        except USER.DoesNotExist:
+            return JsonResponse({'error': 'Correo no encontrado'}, status=400)
+
+        uidb64 = urlsafe_base64_encode(force_bytes(usuario.pk))
+        reset_url = f'http://127.0.0.1:8000/restablecer/{uidb64}/'
+
+        send_mail(
+            'Restablecimiento de contraseña',
+            f'Para restablecer tu contraseña, haz clic en el siguiente enlace: {reset_url}',
+            'soporte@todojuegos.com',
+            [correo]
+        )
+
+        return JsonResponse({'mensaje': 'Correo enviado con instrucciones para restablecer la contraseña'})
+    
+    return render(request, 'recuperar_clave.html')
+
+@csrf_exempt
+def restablecer(request, uidb64):
+    try:
+        correo = force_str(urlsafe_base64_decode(uidb64))
+        usuario = USER.objects.get(email=correo)
+    except (TypeError, ValueError, OverflowError, USER.DoesNotExist):
+        return render(request, 'restablecer.html', {'error': 'Enlace inválido o expirado.'})
+
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            return render(request, 'restablecer.html', {
+                'error': 'Las contraseñas no coinciden.'
+            })
+
+        usuario.password = make_password(new_password)
+        usuario.save()
+        return redirect('login')
+
+    return render(request, 'restablecer.html', {'uidb64': uidb64})
+

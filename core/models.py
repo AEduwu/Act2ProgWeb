@@ -37,5 +37,5 @@ class GAME(models.Model):
     cod_category = models.ForeignKey(CATEGORY, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre_juego
+        return self.game_name   
     
