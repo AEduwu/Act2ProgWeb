@@ -1,0 +1,15 @@
+Credenciales Base de Datos
+admin credentials:
+
+ADMIN
+db123Duoc_2024
+
+
+Database:
+ 
+RTAV0BM0GM91935M
+db123Duoc_2024
+
+
+wallet password: db123Duoc_2024
+
