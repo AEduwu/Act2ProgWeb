@@ -58,24 +58,52 @@ def carrito(request):
     return render(request, 'carrito.html', context)
 
 def adventure(request):
-    user_username = request.session.get('user_username', None)
-    user_rol = request.session.get('user_rol', None)
-    return render(request, 'adventure.html', {'user_username': user_username, 'user_rol': user_rol})
+    user_username = request.session.get('user_username')
+    user_rol = request.session.get('user_rol')
+
+    juegos_adventure = GAME.objects.filter(cod_category_id=1)
+
+    return render(request, 'adventure.html', {
+        'user_username': user_username,
+        'user_rol': user_rol,
+        'juegos': juegos_adventure,
+    })
 
 def racing(request):
-    user_username = request.session.get('user_username', None)
-    user_rol = request.session.get('user_rol', None)
-    return render(request, 'racing.html', {'user_username': user_username, 'user_rol': user_rol})
+    user_username = request.session.get('user_username')
+    user_rol = request.session.get('user_rol')
+
+    juegos_racing = GAME.objects.filter(cod_category_id=3)
+
+    return render(request, 'racing.html', {
+        'user_username': user_username,
+        'user_rol': user_rol,
+        'juegos': juegos_racing,
+    })
 
 def shooter(request):
-    user_username = request.session.get('user_username', None)
-    user_rol = request.session.get('user_rol', None)
-    return render(request, 'shooter.html', {'user_username': user_username, 'user_rol': user_rol})
+    user_username = request.session.get('user_username')
+    user_rol = request.session.get('user_rol')
+
+    juegos_shooter = GAME.objects.filter(cod_category_id=2)
+
+    return render(request, 'shooter.html', {
+        'user_username': user_username,
+        'user_rol': user_rol,
+        'juegos': juegos_shooter,
+    })
 
 def strategy(request):
-    user_username = request.session.get('user_username', None)
-    user_rol = request.session.get('user_rol', None)
-    return render(request, 'strategy.html', {'user_username': user_username, 'user_rol': user_rol})
+    user_username = request.session.get('user_username')
+    user_rol = request.session.get('user_rol')
+
+    juegos_strategy = GAME.objects.filter(cod_category_id=5)
+
+    return render(request, 'strategy.html', {
+        'user_username': user_username,
+        'user_rol': user_rol,
+        'juegos': juegos_strategy,
+    })
 
 def terror(request):
     user_username = request.session.get('user_username')
