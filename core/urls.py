@@ -30,6 +30,7 @@ urlpatterns = [
     path('juegos/delete/<int:cod_game>/', views.delete_game, name='delete_game'),
     path('recuperar/', views.recuperar_clave, name='recuperar_clave'),
     path('restablecer/<uidb64>/', views.restablecer, name='restablecer'),
+    path('editar-perfil/', views.editar_perfil, name='editar_perfil'),
     ]
 
 if settings.DEBUG:
