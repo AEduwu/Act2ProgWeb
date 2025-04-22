@@ -26,14 +26,6 @@ def registration(request):
 def forgot_password(request):
     return render(request, 'forgotPassword.html')
 
-def profile(request):
-    if 'usuario' not in request.session:
-        return render(request, 'login.html', {'error': 'Debes iniciar sesión'})
-
-    usuario = USER.objects.get(email=request.session['usuario'])
-    user_rol = request.session.get('user_rol', None)
-    return render(request, 'profile.html', {'user': usuario, 'user_rol': user_rol})
-
 def catalogo(request):
     user_username = request.session.get('user_username', None)
     user_rol = request.session.get('user_rol', None)
@@ -322,3 +314,40 @@ def restablecer(request, uidb64):
 
     return render(request, 'restablecer.html', {'uidb64': uidb64})
 
+def profile(request):
+    if 'user_email' in request.session:
+        user_username = request.session.get('user_username')
+        user_rol = request.session.get('user_rol')
+        usuario = USER.objects.get(email=request.session['user_email'])
+
+        return render(request, 'profile.html', {'user_username': user_username, 'user_rol': user_rol, 'usuario': usuario})
+    else:
+        return redirect('login')
+    
+@csrf_exempt
+def editar_perfil(request):
+    if request.method == 'POST':
+        email = request.session.get('user_email')
+        if not email:
+            return JsonResponse({'error': 'No has iniciado sesión'}, status=403)
+
+        usuario = get_object_or_404(USER, email=email)
+
+        nombre = request.POST.get('nombre')
+        direccion = request.POST.get('direccion')
+        nueva_contrasena = request.POST.get('contrasena')
+        foto = request.FILES.get('foto')
+
+        if nombre:
+            usuario.name = nombre
+        if direccion:
+            usuario.adress = direccion
+        if nueva_contrasena:
+            usuario.password = make_password(nueva_contrasena)
+        if foto:
+            usuario.profile_pic = foto
+
+        usuario.save()
+        return redirect('profile')
+
+    return HttpResponseForbidden("Método no permitido")
