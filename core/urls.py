@@ -3,9 +3,10 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import GameListAPIView, UserListAPIView
+from core.views import apisImportadas
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', apisImportadas, name='index'),
     path('login/', views.login, name='login'),
     path('registration/', views.registration, name='registration'),
     path('forgot-password/', views.forgot_password, name='forgot_password'),

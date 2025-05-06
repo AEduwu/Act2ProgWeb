@@ -142,6 +142,50 @@
             </div>
         </div>
     </section>
+
+    <hr>
+
+
+    <h2>Lo mas jugado</h2>
+
+    <hr>
+
+    <div class="contenedor_juegos_api">
+        {% for juego in juegos %}
+            <div class="tarjeta_juego">
+                <img src="{{ juego.background_image }}" alt="{{ juego.name }}" class="imagen_juego">
+                <div class="info_juego">
+                    <h3 class="nombre_juego">{{ juego.name }}</h3>
+                </div>
+            </div>
+        {% empty %}
+            <p class="mensaje_error">No se pudieron cargar juegos desde RAWG </p>
+        {% endfor %}
+    </div>
+    
+    <hr>
+    
+    <h2>Noticias recientes</h2>
+
+    <hr>
+
+    <div class="contenedor_noticias_api">
+        {% for noticia in noticias|slice:":3" %}
+            <div class="tarjeta_noticia">
+                <h4 class="titulo_noticia">
+                    <a href="{{ noticia.url }}" target="_blank">{{ noticia.title }}</a>
+                </h4>
+                {% if noticia.image %}
+                    <img src="{{ noticia.image }}" alt="Imagen de {{ noticia.title }}" class="imagen_noticia">
+                {% endif %}
+                <p class="descripcion_noticia">{{ noticia.description }}</p>
+                <small class="fecha_noticia">{{ noticia.publishedAt|slice:":10" }}</small>
+            </div>
+        {% empty %}
+            <p class="mensaje_error">No se encontraron noticias</p>
+        {% endfor %}
+    </div>
+
     
 
     <div class="spacer"></div>

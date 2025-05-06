@@ -15,6 +15,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import GameSerializer, UserSerializer
+import requests
+from django.conf import settings
+
 
 def index(request):
     user_username = request.session.get('user_username', None)
@@ -381,3 +384,33 @@ class UserListAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+def apisImportadas(request):
+    juegos = []
+    noticias = []
+
+    try:
+        url_juegos = f"https://api.rawg.io/api/games?key={settings.RAWG_API_KEY}&page_size=5"
+        response_juegos = requests.get(url_juegos)
+        if response_juegos.ok:
+            juegos = response_juegos.json().get("results", [])
+        else:
+            print("Error en RAWG:", response_juegos.status_code)
+    except Exception as e:
+        print("Excepción RAWG:", e)
+
+    try:
+        url_noticias = f"https://gnews.io/api/v4/search?q=videojuegos&lang=es&token={settings.GNEWS_API_KEY}"
+        response_noticias = requests.get(url_noticias)
+        if response_noticias.ok:
+            noticias = response_noticias.json().get("articles", [])
+        else:
+            print("Error en GNews:", response_noticias.status_code)
+    except Exception as e:
+        print("Excepción GNews:", e)
+
+    return render(request, 'index.html', {
+        'juegos': juegos,
+        'noticias': noticias,
+    })

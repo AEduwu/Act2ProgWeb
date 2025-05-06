@@ -145,3 +145,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+RAWG_API_KEY = '3d993591671f4cb4aebd9f9380713c69'
+GNEWS_API_KEY = 'ebc5ed72114ffbd10e2bcf753b9eadbd'
