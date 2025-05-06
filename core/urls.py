@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import GameListAPIView, UserListAPIView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -31,6 +32,8 @@ urlpatterns = [
     path('recuperar/', views.recuperar_clave, name='recuperar_clave'),
     path('restablecer/<uidb64>/', views.restablecer, name='restablecer'),
     path('editar-perfil/', views.editar_perfil, name='editar_perfil'),
+    path('api/games/', GameListAPIView.as_view(), name='api-games'),
+    path('api/users/', UserListAPIView.as_view(), name='api-users'),
     ]
 
 if settings.DEBUG:

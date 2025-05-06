@@ -11,6 +11,10 @@ from .models import USER, GAME, CATEGORY
 from .cart import Cart
 from decimal import Decimal
 import json
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import GameSerializer, UserSerializer
 
 def index(request):
     user_username = request.session.get('user_username', None)
@@ -351,3 +355,29 @@ def editar_perfil(request):
         return redirect('profile')
 
     return HttpResponseForbidden("Método no permitido")
+
+class GameListAPIView(APIView):
+    def get(self, request):
+        games = GAME.objects.all()
+        serializer = GameSerializer(games, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = GameSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserListAPIView(APIView):
+    def get(self, request):
+        users = USER.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
